@@ -2,12 +2,12 @@
 
 namespace BulkyWeb.Models
 {
-    public class Category
+    public class Category//Class Model
     {
-        [Key]
-        public int Id { get; set; }
+        [Key]//Data Annotation That Creates Primary Key
+        public int Id { get; set; }//Getter Setter Fields
 
-        [Required]
+        [Required]//Data Anotation For required Data
         public string Name { get; set; }
 
         public int CategoryOrder { get; set; }  

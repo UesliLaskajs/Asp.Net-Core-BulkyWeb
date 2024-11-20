@@ -1,1 +1,21 @@
-﻿<h1>Category List</h1>
+﻿@model List<Category>//Got The List Model from Category Model
+
+<h1>Category List</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="table-primary">
+            <th>Category Name</th>
+            <th>Display Order</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.OrderBy(a => a.CategoryOrder))  //From The model  We Sort By Category and Display Data
+        {
+            <tr>
+                <td>@obj.Name</td> 
+                <td>@obj.CategoryOrder</td>
+            </tr>
+        }
+    </tbody>
+</table>
