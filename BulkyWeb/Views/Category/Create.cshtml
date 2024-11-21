@@ -1,0 +1,37 @@
+﻿@model Category //Importing The Model 
+
+<form method="post" asp-action="Create">
+    <!-- Post Method  -->
+   
+
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Category</h2>
+            <hr />
+        </div>
+
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Name"></label> <!-- Label Displaying The Name From The Model -->
+            <input type="text" class="form-control" asp-for="Name" /><!-- Asp-For Matches The Value of te input->
+            <span asp-validation-for="Name" class="text-danger"></span><!--Validation From ServerError -->
+        </div>
+
+        <div class="row mb-3">
+            <label class="text-primary"  asp-for="CategoryOrder" ></label>
+            <input type="text" class="form-control" asp-for="CategoryOrder" />
+            <span asp-validation-for="CategoryOrder" class="text-danger"></span>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col col-6 md-col-3">
+                <button type="submit" class="btn btn-primary form-control " asp-controller="Category" asp-action="Create">Create</button> <!--Subimt Button og the values-->
+            </div>
+
+            <!-- asp-Controller Matches the Controller where action matches the action from controller-->
+            <div class="col col-6 md-col-3">
+                <a class="btn btn-secondary form-control" asp-controller="Category" asp-action="Index">Go Back</a>
+            </div>
+        </div>
+    </div>
+
+</form>
