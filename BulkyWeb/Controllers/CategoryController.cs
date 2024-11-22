@@ -33,6 +33,11 @@ namespace BulkyWeb.Controllers
         [HttpPost] //The Same Controller Is Making A Post Request Where in The Ui is submiting a form
         public IActionResult Create(Category modelTypeCat)//Type of Category Model createing an Object from Form
         {
+            if (modelTypeCat.Name == modelTypeCat.CategoryOrder.ToString())
+            {
+                 ModelState.AddModelError("Name", "The DisplayOrder Cannot be the same as Name");
+            }
+
             if (ModelState.IsValid)//Catching Erros
             {
                 _db.Add(modelTypeCat);//Adding the form Inputs to Db
@@ -43,5 +48,36 @@ namespace BulkyWeb.Controllers
             
             return View();//If Error it Redirects to Same Page
         }
+
+        public IActionResult Edit(int? id) //Initialize an Integer to match id of View
+        {
+            if(id==null || id == 0)//Catch Errors
+            {
+                return NotFound();
+            }
+
+            Category editedItem = _db.categories.Find(id); //Find Id In Database
+            //Category editedItem2 = _db.categories.FirstOrDefault(u => u.Id == id);
+            //Category editedItem1 = _db.categories.Where(n => n.Id == id).FirstOrDefault();
+            if(editedItem.Id==null || editedItem.Id == 0)
+            {
+                return NotFound();
+            }
+            return View(editedItem); //Return The Found Column Category
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category obj)//Post For the Same Acition Edit To Update
+        {
+            if (ModelState.IsValid)//If Model Is Correct
+            {
+                _db.categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
+
     }
 }
