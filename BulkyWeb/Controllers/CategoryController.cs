@@ -35,23 +35,24 @@ namespace BulkyWeb.Controllers
         {
             if (modelTypeCat.Name == modelTypeCat.CategoryOrder.ToString())
             {
-                 ModelState.AddModelError("Name", "The DisplayOrder Cannot be the same as Name");
+                ModelState.AddModelError("Name", "The DisplayOrder Cannot be the same as Name");
             }
 
             if (ModelState.IsValid)//Catching Erros
             {
                 _db.Add(modelTypeCat);//Adding the form Inputs to Db
                 _db.SaveChanges();//Saving 
+                TempData["Success"] = "Created Succesful Data";
                 return RedirectToAction("Index");//Redirects to Dashboard where we are displaying data from database
             }
-           
-            
+
+
             return View();//If Error it Redirects to Same Page
         }
 
         public IActionResult Edit(int? id) //Initialize an Integer to match id of View
         {
-            if(id==null || id == 0)//Catch Errors
+            if (id == null || id == 0)//Catch Errors
             {
                 return NotFound();
             }
@@ -59,7 +60,7 @@ namespace BulkyWeb.Controllers
             Category editedItem = _db.categories.Find(id); //Find Id In Database
             //Category editedItem2 = _db.categories.FirstOrDefault(u => u.Id == id);
             //Category editedItem1 = _db.categories.Where(n => n.Id == id).FirstOrDefault();
-            if(editedItem.Id==null || editedItem.Id == 0)
+            if (editedItem.Id == null || editedItem.Id == 0)
             {
                 return NotFound();
             }
@@ -78,6 +79,34 @@ namespace BulkyWeb.Controllers
             return View(obj);
         }
 
+        public IActionResult Delete(int? id) 
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Category findDeletion = _db.categories.Find(id);
 
+            if (findDeletion.Id == null || findDeletion.Id == 0)
+            {
+                return NotFound();
+            }
+
+            return View(findDeletion);
+        }
+
+        [HttpPost,ActionName("Delete")] //The Delete Post is Called with Delete Action naming
+        public IActionResult DeletePost(Category obj)
+        {
+
+            _db.categories.Remove(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            
+            return View(obj);
+        }
+
+            
+        }
     }
-}
+
