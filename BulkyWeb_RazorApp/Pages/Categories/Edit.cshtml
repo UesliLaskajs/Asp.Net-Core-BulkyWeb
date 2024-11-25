@@ -1,0 +1,39 @@
+﻿@page
+@model BulkyWeb_RazorApp.Pages.Categories.EditModel
+@{
+}
+
+<form method="post" >
+    <!-- Post Method  -->
+    <input asp-for="Category.Id" hidden /> 
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Category</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div> <!-- Asp Validation Displaying All Errors -->
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Category.Name"></label> <!-- Label Displaying The Name From The Model -->
+            <input type="text" class="form-control" asp-for="Category.Name" />
+            <span asp-validation-for="Category.Name" class="text-danger"></span> <!-- Validation From ServerError -->
+        </div>
+
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Category.CategoryOrder"></label>
+            <input type="text" class="form-control" asp-for="Category.CategoryOrder" />
+            <span asp-validation-for="Category.CategoryOrder" class="text-danger"></span>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col col-6 md-col-3">
+                <button type="submit" class="btn btn-primary form-control"asp-page="/Categories/Edit">Edit</button> <!-- Submit Button for the values -->
+            </div>
+
+            <!-- asp-Controller Matches the Controller where action matches the action from controller-->
+            <div class="col col-6 md-col-3">
+                <a class="btn btn-secondary form-control" asp-page="/Category/Index">Go Back</a>
+            </div>
+        </div>
+    </div>
+</form>
+
