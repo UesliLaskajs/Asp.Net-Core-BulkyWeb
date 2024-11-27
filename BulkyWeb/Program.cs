@@ -1,4 +1,5 @@
-using BulkyWeb.Data;
+using Bulky.DataAccess.Data;
+using Bulky.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb
