@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections.Generic;  // Make sure to include this
 
-namespace BulkyWeb.Controllers
+namespace BulkyWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller  // Inherited from Controller
     {
         private readonly ApplicationDbContext _db;  // Access field for storing the Database Context
@@ -79,7 +80,7 @@ namespace BulkyWeb.Controllers
             return View(obj);
         }
 
-        public IActionResult Delete(int? id) 
+        public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
             {
@@ -95,18 +96,16 @@ namespace BulkyWeb.Controllers
             return View(findDeletion);
         }
 
-        [HttpPost,ActionName("Delete")] //The Delete Post is Called with Delete Action naming
+        [HttpPost, ActionName("Delete")] //The Delete Post is Called with Delete Action naming
         public IActionResult DeletePost(Category obj)
         {
 
             _db.categories.Remove(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            
-            return View(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-            
-        }
+
     }
+}
 
