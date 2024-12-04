@@ -16,6 +16,13 @@
         </div>
 
         <div class="row mb-3">
+            <label class="text-primary" asp-for="Description"></label>
+            <input type="text" class="form-control" asp-for="Description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+
+        <div class="row mb-3">
             <label class="text-primary" asp-for="ISBN"></label>
             <input type="text" class="form-control" asp-for="ISBN" />
             <span asp-validation-for="ISBN" class="text-danger"></span>
@@ -28,11 +35,22 @@
         </div>
 
         <div class="row mb-3">
-            <label class="text-primary" asp-for="Author"></label>
-            <input type="text" class="form-control" asp-for="Author" />
-            <span asp-validation-for="Author" class="text-danger"></span>
+            <label class="text-primary" asp-for="ListPrice"></label>
+            <input type="text" class="form-control" asp-for="ListPrice" />
+            <span asp-validation-for="ListPrice" class="text-danger"></span>
         </div>
 
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Price50"></label>
+            <input type="text" class="form-control" asp-for="Price50" />
+            <span asp-validation-for="Price50" class="text-danger"></span>
+        </div>
+
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Price100"></label>
+            <input type="text" class="form-control" asp-for="Price100" />
+            <span asp-validation-for="Price100" class="text-danger"></span>
+        </div>
         
 
         <div class="row mb-3">

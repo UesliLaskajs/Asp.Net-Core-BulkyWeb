@@ -11,12 +11,17 @@
         </div>
         <div asp-validation-summary="All"></div> <!--Asp Validation Displaying All Errors  Catched-->
         <div class="row mb-3">
-
             <label class="text-primary" asp-for="Title"></label> <!-- Label Displaying The Name From The Model -->
             <input type="text" class="form-control" asp-for="Title" />
-            <!-- Asp-For Matches The Value of te input->
-            <span asp-validation-for="Title" class="text-danger"></span><!--Validation From ServerError -->
+            <span asp-validation-for="Title" class="text-danger"></span> <!-- Validation From ServerError -->
         </div>
+
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Description"></label>
+            <input type="text" class="form-control" asp-for="Description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
 
         <div class="row mb-3">
             <label class="text-primary" asp-for="ISBN"></label>
@@ -31,9 +36,21 @@
         </div>
 
         <div class="row mb-3">
-            <label class="text-primary" asp-for="Author"></label>
-            <input type="text" class="form-control" asp-for="Author" />
-            <span asp-validation-for="Author" class="text-danger"></span>
+            <label class="text-primary" asp-for="ListPrice"></label>
+            <input type="text" class="form-control" asp-for="ListPrice" />
+            <span asp-validation-for="ListPrice" class="text-danger"></span>
+        </div>
+
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Price50"></label>
+            <input type="text" class="form-control" asp-for="Price50" />
+            <span asp-validation-for="Price50" class="text-danger"></span>
+        </div>
+
+        <div class="row mb-3">
+            <label class="text-primary" asp-for="Price100"></label>
+            <input type="text" class="form-control" asp-for="Price100" />
+            <span asp-validation-for="Price100" class="text-danger"></span>
         </div>
 
        

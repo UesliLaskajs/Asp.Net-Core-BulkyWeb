@@ -3,16 +3,19 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Bulky.Data.Migrations
+namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241204171640_addForeignKeyofCategoryId")]
+    partial class addForeignKeyofCategoryId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,10 +103,6 @@ namespace Bulky.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -122,8 +121,7 @@ namespace Bulky.Data.Migrations
                             Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
-                            Title = "Fortune of Time",
-                            image = ""
+                            Title = "Fortune of Time"
                         },
                         new
                         {
@@ -136,8 +134,7 @@ namespace Bulky.Data.Migrations
                             Price = 30.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
-                            Title = "Dark Skies",
-                            image = ""
+                            Title = "Dark Skies"
                         },
                         new
                         {
@@ -150,8 +147,7 @@ namespace Bulky.Data.Migrations
                             Price = 50.0,
                             Price100 = 35.0,
                             Price50 = 40.0,
-                            Title = "Vanish in the Sunset",
-                            image = ""
+                            Title = "Vanish in the Sunset"
                         },
                         new
                         {
@@ -164,8 +160,7 @@ namespace Bulky.Data.Migrations
                             Price = 65.0,
                             Price100 = 55.0,
                             Price50 = 60.0,
-                            Title = "Cotton Candy",
-                            image = ""
+                            Title = "Cotton Candy"
                         },
                         new
                         {
@@ -178,8 +173,7 @@ namespace Bulky.Data.Migrations
                             Price = 27.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
-                            Title = "Rock in the Ocean",
-                            image = ""
+                            Title = "Rock in the Ocean"
                         },
                         new
                         {
@@ -192,8 +186,7 @@ namespace Bulky.Data.Migrations
                             Price = 23.0,
                             Price100 = 20.0,
                             Price50 = 22.0,
-                            Title = "Leaves and Wonders",
-                            image = ""
+                            Title = "Leaves and Wonders"
                         });
                 });
 
