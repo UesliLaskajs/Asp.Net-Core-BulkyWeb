@@ -16,16 +16,20 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> products = _db.products.ToList();
-            IEnumerable<SelectListItem> CategoryList = _db.categories.Select(c => new SelectListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            });
+            
             return View(products);
         }
 
         public IActionResult Create()
         {
+
+            IEnumerable<SelectListItem> CategoryList = _db.categories.Select(c => new SelectListItem//Data That is Passed to View Temporary
+            {//Temporary Data is not in the model
+                Text = c.Name,
+                Value = c.Id.ToString()
+            });
+
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
 
