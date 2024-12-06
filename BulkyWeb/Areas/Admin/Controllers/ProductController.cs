@@ -1,5 +1,6 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.Models.Models;
+using Bulky.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -22,28 +23,34 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            // Create the ProductVM object with an empty Product and CategoryList
+            ProductVM productsVM = new ProductVM
+            {
+                // Populate the CategoryList from the database
+                CategoryList = _db.categories.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }), // Convert the query result to a list
+                             // Initialize the Products property with an empty Product object
+                Products = new Product()
+            };
 
-            IEnumerable<SelectListItem> CategoryList = _db.categories.Select(c => new SelectListItem//Data That is Passed to View Temporary
-            {//Temporary Data is not in the model
-                Text = c.Name,
-                Value = c.Id.ToString()
-            });
-
-            ViewBag.CategoryList = CategoryList;
-            return View();
+            // Pass the ProductVM object to the view
+            return View(productsVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Product producttype)
+        public IActionResult Create(ProductVM producttype)
         {
-            if (producttype.Title == null)
+            if (producttype.Products.Title == null)
             {
                 ModelState.AddModelError("Title", "The Title Cannot Be Empty");
             }
 
             if (ModelState.IsValid)
             {
-                _db.products.Add(producttype);
+                _db.products.Add(producttype.Products);
                 _db.SaveChanges();
 
                 return RedirectToAction("Index");

@@ -1,4 +1,5 @@
 ﻿using Bulky.Models.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace Bulky.Models.ViewModel
 {
     public class ProductVM
     {
-        public Product Product { get; set; }
-
+        public Product Products { get; set; }
+        [ValidateNever]
         public IEnumerable<SelectListItem> CategoryList { get; set; }
     }
 }
