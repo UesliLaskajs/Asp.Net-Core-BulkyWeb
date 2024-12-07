@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository.IRepository
 {
-    public interface IProduct : IRepository<Product>
+    public interface IProduct : IRepository<Product> //Class That Implements IRepo And Product Class 
     {
-        void Update(Product product);
+        void Update(Product product);//Only Method that cannot be inserted in interface 
     }
 }

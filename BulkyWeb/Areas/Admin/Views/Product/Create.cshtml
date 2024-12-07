@@ -1,6 +1,6 @@
 ﻿@model ProductVM //Importing The Model 
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" formenctype="multipart/form-data">
     <!-- Post Method  -->
 
 
@@ -59,6 +59,12 @@
             <input type="text" class="form-control" asp-for="Products.Price100" />
             <span asp-validation-for="Products.Price100" class="text-danger"></span>
         </div>
+        <label class="text-primary">Image Url</label>
+        <div class=" form-floating py-2 col-12">
+          
+            <input type="file" class="form-control border-0 shadow"  />
+        </div>
+
 
         <div class="row mb-3">
             <label class="text-primary" asp-for="Products.Price100">Select  Category</label>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.Models.ViewModel
 {
-    public class ProductVM
+    public class ProductVM//Created A Product View Model that stores Data from Controller to View 
     {
         public Product Products { get; set; }
         [ValidateNever]

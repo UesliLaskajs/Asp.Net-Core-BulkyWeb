@@ -17,7 +17,7 @@ namespace Bulky.DataAccess.Repository
             _db = db;
         }
 
-        public void Update(Product product)
+        public void Update(Product product)//Only Updates 
         {
             _db.Update(product);
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository.IRepository
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class  //Create An Generics Interface Repository for all Classes passed to implement Methods 
     {
         IEnumerable<T> GetAll();
         T Get(Expression<Func<T, bool>> filter);

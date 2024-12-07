@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    internal class CategoryReposityory : Repository<Category>
+    internal class CategoryReposityory : Repository<Category> //
     {
         private readonly ApplicationDbContext _db;
         public CategoryReposityory(ApplicationDbContext db):base(db)

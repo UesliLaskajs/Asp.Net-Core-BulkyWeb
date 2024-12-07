@@ -51,11 +51,12 @@ namespace Bulky.Models.Models
 
         [ValidateNever]
         public Category category { get; set; }
-        
 
-        [ValidateNever]
-        public string image { get; set; }
-        
+
+        [StringLength(255, ErrorMessage = "Image URL cannot be longer than 255 characters.")]
+        [ValidateNever]  // Keeps validation from occurring here as well
+        public string? image { get; set; } = "Default";
+
     }
 }
 
