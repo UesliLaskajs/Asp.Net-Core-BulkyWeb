@@ -8,7 +8,7 @@
             <h2 class="text-primary">Product List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
+            <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
                 <i class="bi bi-plus-square-fill"></i> Create New Product
             </a>
         </div>
@@ -37,7 +37,7 @@
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
                             <!-- Edit Button -->
-                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-outline-primary mx-2" role="button"><!--Asp Route of Displayed Id Paaram-->
+                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-sm btn-outline-primary mx-2" role="button"><!--Asp Route of Displayed Id Paaram-->
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                             <!-- Delete Button -->

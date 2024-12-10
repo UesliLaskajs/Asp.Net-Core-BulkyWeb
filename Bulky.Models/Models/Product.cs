@@ -55,7 +55,7 @@ namespace Bulky.Models.Models
 
         [StringLength(255, ErrorMessage = "Image URL cannot be longer than 255 characters.")]
         [ValidateNever]  // Keeps validation from occurring here as well
-        public string? image { get; set; } = "Default";
+        public string? image { get; set; } = "Deafult";
 
     }
 }

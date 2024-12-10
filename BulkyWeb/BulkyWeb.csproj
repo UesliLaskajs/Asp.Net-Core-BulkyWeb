@@ -8,15 +8,24 @@
 
   <ItemGroup>
     <Compile Remove="Views\NewFolder\**" />
+    <Compile Remove="wwwroot\images\NewFolder1\**" />
+    <Compile Remove="wwwroot\images\NewFolder\**" />
     <Content Remove="Views\NewFolder\**" />
+    <Content Remove="wwwroot\images\NewFolder1\**" />
+    <Content Remove="wwwroot\images\NewFolder\**" />
     <EmbeddedResource Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\images\NewFolder1\**" />
+    <EmbeddedResource Remove="wwwroot\images\NewFolder\**" />
     <None Remove="Views\NewFolder\**" />
+    <None Remove="wwwroot\images\NewFolder1\**" />
+    <None Remove="wwwroot\images\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Areas\Admin\Views\Category\Index1.cshtml" />
     <Content Remove="Areas\Admin\Views\Category\View.cshtml" />
     <Content Remove="Views\Create.cshtml" />
+    <Content Remove="wwwroot\images\NewFolder2\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +46,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\images\NewFolder2\" />
   </ItemGroup>
 
 </Project>
