@@ -83,7 +83,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     }
 
                     // Set the product's image property to the relative path of the saved image
-                    producttype.Products.image = @"\images\product" + fileName;
+                    producttype.Products.image = @"\images\NewFolder2\" + fileName;
                 }
 
                 // Add the product to the database and save changes
