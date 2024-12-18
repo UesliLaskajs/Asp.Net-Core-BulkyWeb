@@ -71,9 +71,18 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 {
                     // Generate a unique file name using a GUID and retain the file extension
                     string fileName = new Guid().ToString() + Path.GetExtension(file.FileName);
-
                     // Define the path where the image will be saved (inside images/NewFolder2)
                     string productPath = Path.Combine(wwwRootPath, @"images\NewFolder2");
+
+                    if (!string.IsNullOrEmpty(producttype.Products.image))
+                    {
+                        var oldPath = Path.Combine(wwwRootPath, producttype.Products.image.TrimStart('/'));
+                        if (System.IO.File.Exists(oldPath)) {
+                            System.IO.File.Delete(oldPath);
+                        }
+                    }
+
+
 
                     // Create the directory if it doesn't already exist
                     using (var filestream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
@@ -87,7 +96,16 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 }
 
                 // Add the product to the database and save changes
-                _db.products.Add(producttype.Products);
+
+                if (producttype.Products.Id == 0)
+                {
+                    _db.products.Add(producttype.Products);
+                }
+                else
+                {
+                    _db.products.Update(producttype.Products);
+                }
+                
                 _db.SaveChanges();
 
                 // Redirect to the Index page after saving the product
