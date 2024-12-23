@@ -17,6 +17,7 @@ namespace Bulky.DataAccess.Repository
 
         public UnitOfWork(ApplicationDbContext db)
         {
+         
             _db = db;
             
         }

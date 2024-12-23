@@ -18,22 +18,36 @@ namespace Bulky.DataAccess.Repository
         {
             _db = db;
             this.dbSet = _db.Set<T>();// representing the table corresponding to the entity type T
+            _db.products.Include(u => u.category);
         }
         public void Add(T entity) //Adding The (T) to db
         {
            dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter) //Gets Item in Db
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null) //Gets Item in Db
         {
             IQueryable<T> query = dbSet;//Creates A query 
-            query=query.Where(filter);//Selects The Filtering Part
+            if (string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includProp in includeProperties.Split(new char[','], StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includProp);
+                }
+            }
+            query =query.Where(filter);//Selects The Filtering Part
             return query.FirstOrDefault();//Returns the founded Filter 
         }
 
-        public IEnumerable<T> GetAll()//Gets All From IQueryable
+        public IEnumerable<T> GetAll(string? includeProperties=null)//Gets All From IQueryable
         {
             IQueryable<T> query = dbSet;//IQueryable is used for building a query to the database that can be executed later.
+            if(string.IsNullOrEmpty(includeProperties))
+            {
+                foreach(var includProp in includeProperties.Split(new char[','],StringSplitOptions.RemoveEmptyEntries)) {
+                    query=query.Include(includProp);
+                }
+            }
             return query.ToList();
         }
 

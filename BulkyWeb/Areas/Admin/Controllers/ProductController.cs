@@ -1,4 +1,6 @@
 ﻿using Bulky.DataAccess.Data;
+using Bulky.DataAccess.Repository;
+using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models.Models;
 using Bulky.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +13,18 @@ namespace BulkyWeb.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _environment;
-        public ProductController(ApplicationDbContext db,IWebHostEnvironment webhostenviroment)
+        private readonly IRepository<Product> _productRepository; 
+        public ProductController(ApplicationDbContext db,IWebHostEnvironment webhostenviroment, IRepository<Product> productRepository)
         {
             _db = db;
             _environment = webhostenviroment;
+            _productRepository = productRepository;
         }
         public IActionResult Index()
         {
-            List<Product> products = _db.products.ToList();
-            
+            // Convert IEnumerable<Product> to List<Product>
+            List<Product> products = _productRepository.GetAll(includeProperties:"category").ToList();
+
             return View(products);
         }
 

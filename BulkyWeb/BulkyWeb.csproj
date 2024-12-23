@@ -7,15 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\**" />
     <Compile Remove="Views\NewFolder\**" />
     <Compile Remove="wwwroot\images\NewFolder1\**" />
     <Compile Remove="wwwroot\images\NewFolder\**" />
+    <Content Remove="Controllers\**" />
     <Content Remove="Views\NewFolder\**" />
     <Content Remove="wwwroot\images\NewFolder1\**" />
     <Content Remove="wwwroot\images\NewFolder\**" />
+    <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="wwwroot\images\NewFolder1\**" />
     <EmbeddedResource Remove="wwwroot\images\NewFolder\**" />
+    <None Remove="Controllers\**" />
     <None Remove="Views\NewFolder\**" />
     <None Remove="wwwroot\images\NewFolder1\**" />
     <None Remove="wwwroot\images\NewFolder\**" />
@@ -45,7 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="wwwroot\images\NewFolder2\" />
   </ItemGroup>
 

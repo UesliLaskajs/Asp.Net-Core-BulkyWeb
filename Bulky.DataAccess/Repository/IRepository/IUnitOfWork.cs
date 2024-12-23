@@ -9,7 +9,6 @@ namespace Bulky.DataAccess.Repository.IRepository
     public interface IUnitOfWork //All Repos Are Saved to UnitOfWork Wich later Can be called to any class
     {
         ICategory CategoryRepo { get; }
-
         void Save();
     }
 }
