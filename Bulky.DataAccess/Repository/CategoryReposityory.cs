@@ -1,25 +1,27 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    internal class CategoryReposityory : Repository<Category> //
+    public class CategoryRepository : Repository<Category>, ICategory
     {
         private readonly ApplicationDbContext _db;
-        public CategoryReposityory(ApplicationDbContext db):base(db)
+
+        public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
         public void Update(Category category)
         {
-            _db.Update(category);
+            var objFromDb = _db.categories.FirstOrDefault(c => c.Id == category.Id);
+            if (objFromDb != null)
+            {
+                objFromDb.Name = category.Name;
+                objFromDb.CategoryOrder = category.CategoryOrder;
+                // Update other fields as needed
+            }
         }
     }
 }

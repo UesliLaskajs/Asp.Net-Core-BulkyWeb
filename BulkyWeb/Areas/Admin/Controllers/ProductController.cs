@@ -11,19 +11,20 @@ namespace BulkyWeb.Areas.Admin.Controllers
     [Area("Admin")] //Specify The Area Of Controller Because its neccesiary to Define The Routing As Admin for this Controller
     public class ProductController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _environment;
-        private readonly IRepository<Product> _productRepository; 
-        public ProductController(ApplicationDbContext db,IWebHostEnvironment webhostenviroment, IRepository<Product> productRepository)
+        
+        public ProductController(ApplicationDbContext db,IWebHostEnvironment webhostenviroment, IUnitOfWork unitOfWork)
         {
             _db = db;
             _environment = webhostenviroment;
-            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
             // Convert IEnumerable<Product> to List<Product>
-            List<Product> products = _productRepository.GetAll(includeProperties:"category").ToList();
+            List<Product> products = _unitOfWork.Product.GetAll(includeProperties:"category").ToList();
 
             return View(products);
         }

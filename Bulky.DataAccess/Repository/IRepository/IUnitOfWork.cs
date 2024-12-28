@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bulky.Models;
+using Bulky.Models.Models;
 
 namespace Bulky.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork //All Repos Are Saved to UnitOfWork Wich later Can be called to any class
+    public interface IUnitOfWork
     {
-        ICategory CategoryRepo { get; }
+        ICategory Category { get; }
+        IProduct Product { get; }
         void Save();
     }
 }
