@@ -14,8 +14,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _environment;
-        
-        public ProductController(ApplicationDbContext db,IWebHostEnvironment webhostenviroment, IUnitOfWork unitOfWork)
+
+        public ProductController(ApplicationDbContext db, IWebHostEnvironment webhostenviroment, IUnitOfWork unitOfWork)
         {
             _db = db;
             _environment = webhostenviroment;
@@ -24,7 +24,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             // Convert IEnumerable<Product> to List<Product>
-            List<Product> products = _unitOfWork.Product.GetAll(includeProperties:"category").ToList();
+            List<Product> products = _unitOfWork.Product.GetAll(includeProperties: "category").ToList();
 
             return View(products);
         }
@@ -40,12 +40,12 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     Text = c.Name,
                     Value = c.Id.ToString()
                 }), // Convert the query result to a list
-                             // Initialize the Products property with an empty Product object
+                    // Initialize the Products property with an empty Product object
                 Products = new Product()
             };
 
             // Pass the ProductVM object to the view
-            if(id==null || id == 0)
+            if (id == null || id == 0)
             {
                 return View(productsVM);
             }
@@ -111,7 +111,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 {
                     _db.products.Update(producttype.Products);
                 }
-                
+
                 _db.SaveChanges();
 
                 // Redirect to the Index page after saving the product
@@ -137,33 +137,99 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View(product);
         }
 
-        public IActionResult Delete(int id)
+        //public IActionResult Delete(int id)
+        //{
+        //    if (id == null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    Product FindDeletion = _db.products.Find(id);
+
+        //    return View(FindDeletion);
+        //}
+
+        //[HttpPost, ActionName("Delete")]
+
+        //public IActionResult DeletePost(Product prod)
+        //{
+        //    if (prod.Id == null || prod.Title == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.products.Remove(prod);
+        //        _db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(prod);
+        //}
+
+        #region Api Calls
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
+            var products = _unitOfWork.Product.GetAll(includeProperties: "category")
+                                              .Select(p => new {
+                                                  p.Title,
+                                                  p.ISBN,
+                                                  p.Price,
+                                                  p.Author,
+                                                  p.CategoryId,
+                                                  CategoryName = p.category.Name // Flatten the category
+                                              }).ToList();
 
-            Product FindDeletion = _db.products.Find(id);
-
-            return View(FindDeletion);
+            return Json(new { data = products });
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete]
 
-        public IActionResult DeletePost(Product prod)
+        public IActionResult Delete(int? id)
         {
-            if (prod.Id == null || prod.Title == null)
+            // Check if the id is null
+            if (id == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Invalid product ID" });
             }
-            if (ModelState.IsValid)
+
+            // Fetch the product to be deleted
+            var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+
+            if (productToBeDeleted == null)
             {
-                _db.products.Remove(prod);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = false, message = "Product not found" });
             }
-            return View(prod);
+
+            // Handle image deletion if exists
+            if (!string.IsNullOrEmpty(productToBeDeleted.image))
+            {
+                var oldImg = Path.Combine(_environment.WebRootPath, productToBeDeleted.image.TrimStart('/'));
+
+                // Check if the image file exists before deleting
+                if (System.IO.File.Exists(oldImg))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(oldImg);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the error (optional) and return failure response
+                        return Json(new { success = false, message = "Error deleting image: " + ex.Message });
+                    }
+                }
+            }
+
+            // Remove the product from the database
+            _unitOfWork.Product.Remove(productToBeDeleted);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Product successfully deleted" });
         }
+
+
+        #endregion
+
     }
-}
+    }

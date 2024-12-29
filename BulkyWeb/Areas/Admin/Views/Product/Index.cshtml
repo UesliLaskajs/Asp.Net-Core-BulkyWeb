@@ -15,7 +15,7 @@
     </div>
 
     <!-- Table Section -->
-    <table class="table table-bordered table-striped table-hover">
+    <table id="myTable" class="table table-bordered table-striped table-hover">
         <thead class="table-light">
             <tr class="table-primary">
                 <th>Book Title</th>
@@ -24,33 +24,13 @@
                 <th>Author</th>
                 <th>Category</th>
                 <th>CategoryName</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var obj in Model.OrderBy(a => a.Price))  // From The model We Sort By Category and Display Data
-            {
-                <tr>
-                    <td>@obj.Title</td>
-                    <td>@obj.ISBN</td>
-                    <td>@obj.Price</td>
-                    <td>@obj.Author</td>
-                    <td>@obj.CategoryId</td>
-                    <td>@obj.category.Name</td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <!-- Edit Button -->
-                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-sm btn-outline-primary mx-2" role="button"><!--Asp Route of Displayed Id Paaram-->
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                            <!-- Delete Button -->
-                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-outline-danger mx-2" role="button">
-                                <!--Asp Route of DeleteId Paaram-->
-                                <i class="bi bi-x-square"></i> Delete
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
+       
     </table>
 </div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}
