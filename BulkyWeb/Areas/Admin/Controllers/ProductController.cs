@@ -172,6 +172,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             var products = _unitOfWork.Product.GetAll(includeProperties: "category")
                                               .Select(p => new {
+                                                  p.Id,
                                                   p.Title,
                                                   p.ISBN,
                                                   p.Price,
@@ -183,7 +184,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return Json(new { data = products });
         }
 
-        [HttpDelete]
+        //[HttpDelete]
 
         public IActionResult Delete(int? id)
         {
@@ -213,10 +214,10 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     {
                         System.IO.File.Delete(oldImg);
                     }
-                    catch (Exception ex)
+                    catch (IOException ex)
                     {
-                        // Log the error (optional) and return failure response
-                        return Json(new { success = false, message = "Error deleting image: " + ex.Message });
+                      
+                        return Json(new { success = false, message = "Error deleting image file: " + ex.Message });
                     }
                 }
             }
@@ -229,7 +230,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
 
 
+
         #endregion
 
     }
-    }
+}
