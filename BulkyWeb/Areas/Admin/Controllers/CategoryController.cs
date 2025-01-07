@@ -21,7 +21,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()//IActionResult is the base type for all the result types in ASP.NET Core MVC. 
         {
             // Fetch the categories from the database (using the correct 'Categories' property)
-            List<Category> categoryList = _db.categories.ToList();
+            List<Category> categoryList = _db.Categories.ToList();
 
             // Pass the categories to the view
             return View(categoryList);
@@ -58,7 +58,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            Category editedItem = _db.categories.Find(id); //Find Id In Database
+            Category editedItem = _db.Categories.Find(id); //Find Id In Database
             //Category editedItem2 = _db.categories.FirstOrDefault(u => u.Id == id);
             //Category editedItem1 = _db.categories.Where(n => n.Id == id).FirstOrDefault();
             if (editedItem.Id == null || editedItem.Id == 0)
@@ -73,7 +73,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)//If Model Is Correct
             {
-                _db.categories.Update(obj);
+                _db.Categories.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -86,7 +86,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Category findDeletion = _db.categories.Find(id);
+            Category findDeletion = _db.Categories.Find(id);
 
             if (findDeletion.Id == null || findDeletion.Id == 0)
             {
@@ -100,7 +100,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult DeletePost(Category obj)
         {
 
-            _db.categories.Remove(obj);
+            _db.Categories.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

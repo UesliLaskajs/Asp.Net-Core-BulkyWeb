@@ -1,11 +1,12 @@
 ﻿using Bulky.Models;
 using Bulky.Models.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Bulky.DataAccess.Data
 {
-    public class ApplicationDbContext:DbContext// Created a class Wich Inherists from DatabaseContext
+    public class ApplicationDbContext: IdentityDbContext// Created a class Wich Inherists from DatabaseContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options):base (options) 
         {
@@ -14,11 +15,12 @@ namespace Bulky.DataAccess.Data
         }
 
 
-        public DbSet<Category> categories { get; set; }//Created a Set Type Wich Creates a Categories Table
-        public DbSet<Product> products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) //Override an Implemented Method for Modifiying The Model Entity
         {
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Category>().HasData(//Modifing The Table by the Category model
                 new Category { Id = 1, Name = "Action", CategoryOrder = 3 },//Inserting Category Class 

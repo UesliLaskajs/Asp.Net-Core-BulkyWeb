@@ -15,7 +15,7 @@ namespace Bulky.DataAccess.Repository
 
         public void Update(Product product)
         {
-            var objFromDb = _db.products.FirstOrDefault(p => p.Id == product.Id);
+            var objFromDb = _db.Products.FirstOrDefault(p => p.Id == product.Id);
             if (objFromDb != null)
             {
                 objFromDb.category.Name = product.category.Name;
