@@ -35,7 +35,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             ProductVM productsVM = new ProductVM
             {
                 // Populate the CategoryList from the database
-                CategoryList = _db.categories.Select(c => new SelectListItem
+                CategoryList = _db.Categories.Select(c => new SelectListItem
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
@@ -51,7 +51,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             }
             else
             {
-                productsVM.Products = _db.products.Find(id);
+                productsVM.Products = _db.Products.Find(id);
                 return View(productsVM);
             }
 
@@ -105,11 +105,11 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
                 if (producttype.Products.Id == 0)
                 {
-                    _db.products.Add(producttype.Products);
+                    _db.Products.Add(producttype.Products);
                 }
                 else
                 {
-                    _db.products.Update(producttype.Products);
+                    _db.Products.Update(producttype.Products);
                 }
 
                 _db.SaveChanges();
@@ -130,7 +130,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.products.Update(product);
+                _db.Products.Update(product);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
