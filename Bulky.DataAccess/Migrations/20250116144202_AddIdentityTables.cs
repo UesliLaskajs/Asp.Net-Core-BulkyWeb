@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bulky.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDbSetPascal : Migration
+    public partial class AddIdentityTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -211,17 +211,18 @@ namespace Bulky.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "Author", "CategoryId", "Description", "ISBN", "ListPrice", "Price", "Price100", "Price50", "Title", "image" },
-                values: new object[,]
-                {
-                    { 2, "Nancy Hoover", 5, "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ", "CAW777777701", 40.0, 30.0, 20.0, 25.0, "Dark Skies", "" },
-                    { 3, "Julian Button", 6, "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ", "RITO5555501", 55.0, 50.0, 35.0, 40.0, "Vanish in the Sunset", "" },
-                    { 4, "Abby Muscles", 17, "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ", "WS3333333301", 70.0, 65.0, 55.0, 60.0, "Cotton Candy", "" },
-                    { 5, "Ron Parker", 18, "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ", "SOTJ1111111101", 30.0, 27.0, 20.0, 25.0, "Rock in the Ocean", "" },
-                    { 6, "Laura Phantom", 5, "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ", "FOT000000001", 25.0, 23.0, 20.0, 22.0, "Leaves and Wonders", "" },
-                    { 1, "Billy Spark", 3, "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ", "SWD9999001", 99.0, 90.0, 80.0, 85.0, "Fortune of Time", "" }
-                });
+      table: "Products",
+      columns: new[] { "Id", "Author", "CategoryId", "Description", "ISBN", "ListPrice", "Price", "Price100", "Price50", "Title", "image" },
+      values: new object[,]
+      {
+        { 2, "Nancy Hoover", 3, "Description", "CAW777777701", 40.0, 30.0, 20.0, 25.0, "Dark Skies", "" },
+        { 3, "Julian Button", 2, "Description", "RITO5555501", 55.0, 50.0, 35.0, 40.0, "Vanish in the Sunset", "" },
+        { 4, "Abby Muscles", 1, "Description", "WS3333333301", 70.0, 65.0, 55.0, 60.0, "Cotton Candy", "" },
+        { 5, "Ron Parker", 1, "Description", "SOTJ1111111101", 30.0, 27.0, 20.0, 25.0, "Rock in the Ocean", "" },
+        { 6, "Laura Phantom", 3, "Description", "FOT000000001", 25.0, 23.0, 20.0, 22.0, "Leaves and Wonders", "" },
+        { 1, "Billy Spark", 2, "Description", "SWD9999001", 99.0, 90.0, 80.0, 85.0, "Fortune of Time", "" }
+      });
+
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

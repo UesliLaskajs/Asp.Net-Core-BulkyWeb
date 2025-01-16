@@ -5,6 +5,8 @@ using Bulky.Models;
 using Bulky.Models.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Bulky.Utilities;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace BulkyWeb
 {
@@ -18,11 +20,11 @@ namespace BulkyWeb
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DeafultConnection")));//Add To the Services The Db Context And on the Options
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-                                                                                                                                                                 //Use the SqlServer Entity Core 
+            builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddRazorPages();                                                                                                                                   //Use the SqlServer Entity Core 
             builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 
@@ -38,9 +40,10 @@ namespace BulkyWeb
             app.UseStaticFiles();
 
             app.UseRouting();
-
+         
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.MapRazorPages();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"); //Create The Deafult Area Route 
