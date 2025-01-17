@@ -1,5 +1,7 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.Models;
+using Bulky.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections.Generic;  // Make sure to include this
@@ -7,6 +9,7 @@ using System.Collections.Generic;  // Make sure to include this
 namespace BulkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_User_Admin)]
     public class CategoryController : Controller  // Inherited from Controller
     {
         private readonly ApplicationDbContext _db;  // Access field for storing the Database Context
