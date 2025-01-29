@@ -9,7 +9,7 @@ namespace Bulky.DataAccess.Repository
 
         private ICategory _categoryRepo;
         private IProduct _productRepo;
-
+        private ICompany _companyRepo;
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -18,6 +18,7 @@ namespace Bulky.DataAccess.Repository
         public ICategory Category => _categoryRepo ??= new CategoryRepository(_db);
         public IProduct Product => _productRepo ??= new ProductRepository(_db);
 
+        public ICompany Company => _companyRepo ??= new CompanyRepository(_db);
         public void Save()
         {
             _db.SaveChanges();
