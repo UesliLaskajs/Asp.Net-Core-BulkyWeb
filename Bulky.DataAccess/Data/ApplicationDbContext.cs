@@ -119,10 +119,12 @@ namespace Bulky.DataAccess.Data
                     CategoryId = 5,
                     image = ""
                 });
+
+            modelBuilder.Entity<Company>().HasData(new Company { Id = 1 , Name="Lufthansa", City="Tirane",StreetAdress="Rruga 5 Maji",State="Al",PostalCode="1011",PhoneNumber="06724635757"});
         }
 
-       
 
+     
         
     }
 }
