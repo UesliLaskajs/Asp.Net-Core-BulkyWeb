@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models.Models;
 using Bulky.Utilities;
 using Microsoft.AspNetCore.Authentication;
@@ -21,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace BulkyWeb.Areas.Identity.Pages.Account
@@ -34,6 +36,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,7 +44,8 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,6 +54,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             _logger = logger;
             _roleManager = roleManager;
             _emailSender = emailSender;
+            _unitOfWork= unitOfWork;
         }
 
         /// <summary>
@@ -117,7 +122,13 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             public string? PostalCode { get; set;    }
             public string? PhoneNumber { get; set; }
             public string? Name { get; set; }
+            public int? CompanyId { get; set; }
+            
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+
         }
+
+
 
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -136,7 +147,13 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 {
                     Text = x,
                     Value = x
+                }),
+                CompanyList = _unitOfWork.Company.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
                 })
+
             };
 
             
@@ -156,7 +173,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-               
+              
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                
@@ -165,6 +182,11 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 user.PhoneNumber = Input.PhoneNumber;
                 user.PostalCode=Input.PostalCode;
                 user.State=Input.State;
+
+                if (Input.Role ==SD.Role_User_Company)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
 
                 if (result.Succeeded)
                 {
