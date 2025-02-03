@@ -19,6 +19,7 @@ namespace Bulky.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<ShoppingCart> ShoppingCart { get; set; }
         public DbSet<Company> Company { get; set; }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }

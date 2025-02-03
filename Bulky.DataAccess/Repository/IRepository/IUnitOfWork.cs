@@ -9,6 +9,10 @@ namespace Bulky.DataAccess.Repository.IRepository
         IProduct Product { get; }
 
         ICompany Company { get; }
+
+        IShoppingCart ShoppingCart { get; }
+
+        IApplicationUser ApplicationUser { get; }
         void Save();
     }
 }

@@ -10,15 +10,23 @@ namespace Bulky.DataAccess.Repository
         private ICategory _categoryRepo;
         private IProduct _productRepo;
         private ICompany _companyRepo;
+        private IShoppingCart _shoppingCartRepo;
+        private IApplicationUser _userRepo;
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
         }
 
+        
+
         public ICategory Category => _categoryRepo ??= new CategoryRepository(_db);
         public IProduct Product => _productRepo ??= new ProductRepository(_db);
 
         public ICompany Company => _companyRepo ??= new CompanyRepository(_db);
+
+        public IShoppingCart ShoppingCart => _shoppingCartRepo ??= new ShoppingCartRepository(_db);
+
+        public IApplicationUser ApplicationUser => _userRepo ??= new ApplicationUserRepository(_db);
         public void Save()
         {
             _db.SaveChanges();
