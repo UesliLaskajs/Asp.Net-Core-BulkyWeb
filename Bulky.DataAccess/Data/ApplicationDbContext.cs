@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bulky.DataAccess.Data
 {
-    public class ApplicationDbContext: IdentityDbContext<IdentityUser>// Created a class Wich Inherists from DatabaseContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>// Created a class Wich Inherists from DatabaseContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options):base (options) 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             // The base constructor call here passes the options to the DbContext base class
             // This allows you to configure your database context based on the settings in the options
@@ -21,8 +21,10 @@ namespace Bulky.DataAccess.Data
 
         public DbSet<ShoppingCart> ShoppingCart { get; set; }
         public DbSet<Company> Company { get; set; }
-
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }  
         protected override void OnModelCreating(ModelBuilder modelBuilder) //Override an Implemented Method for Modifiying The Model Entity
         {
             base.OnModelCreating(modelBuilder);
@@ -47,7 +49,7 @@ namespace Bulky.DataAccess.Data
                 Price50 = 85,
                 Price100 = 80,
                 CategoryId = 3,
-                image=""
+                image = ""
 
             },
                 new Product
@@ -121,12 +123,12 @@ namespace Bulky.DataAccess.Data
                     image = ""
                 });
 
-            modelBuilder.Entity<Company>().HasData(new Company { Id = 1 , Name="Lufthansa", City="Tirane",StreetAdress="Rruga 5 Maji",State="Al",PostalCode="1011",PhoneNumber="06724635757"});
+            modelBuilder.Entity<Company>().HasData(new Company { Id = 1, Name = "Lufthansa", City = "Tirane", StreetAdress = "Rruga 5 Maji", State = "Al", PostalCode = "1011", PhoneNumber = "06724635757" });
         }
 
 
-     
-        
+
+
     }
 }
 //Add-migrations
