@@ -37,6 +37,9 @@ namespace Bulky.Models.Models
         [Required]
         public string? StreetAdress { get; set; }
         [Required]
+
+        public string? PhoneNumber { get; set; }
+        [Required]
         public string? City { get; set; }
         [Required]
         public string? State { get; set; }

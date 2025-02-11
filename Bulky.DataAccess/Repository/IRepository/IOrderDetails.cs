@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository.IRepository
 {
-    public interface IOrderDetails:IRepository<OrderDetailsRepository>
+    public interface IOrderDetails:IRepository<OrderDetails>
     {
-        public void Update(OrderDetailsRepository orderDetails);
+        public void Update(OrderDetails orderDetails);
       
     }
 }

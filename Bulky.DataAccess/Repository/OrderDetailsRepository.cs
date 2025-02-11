@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class OrderDetailsRepository :Repository<OrderDetailsRepository>,IOrderDetails
+    public class OrderDetailsRepository :Repository<OrderDetails>,IOrderDetails
     {
         private readonly ApplicationDbContext _db;
 
         public OrderDetailsRepository(ApplicationDbContext db) : base(db) {
-        _db = db;
+            _db = db;
         }
 
         public void Update(OrderDetails orderDetails)

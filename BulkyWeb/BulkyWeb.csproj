@@ -29,6 +29,7 @@
     <Content Remove="Areas\Admin\Views\Category\Index1.cshtml" />
     <Content Remove="Areas\Admin\Views\Category\View.cshtml" />
     <Content Remove="Areas\Admin\Views\Product\Delete.cshtml" />
+    <Content Remove="Areas\Customer\Views\Cart\Index1.cshtml" />
     <Content Remove="Views\Create.cshtml" />
     <Content Remove="wwwroot\images\NewFolder2\.editorconfig" />
   </ItemGroup>
