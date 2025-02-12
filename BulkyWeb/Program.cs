@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Bulky.Utilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Stripe;
+
 
 namespace BulkyWeb
 {
@@ -19,7 +21,7 @@ namespace BulkyWeb
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DeafultConnection")));//Add To the Services The Db Context And on the Options
-
+            
             builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             builder.Services.ConfigureApplicationCookie(options =>
             {
@@ -28,10 +30,10 @@ namespace BulkyWeb
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
             builder.Services.AddRazorPages();                                                                                                                                   //Use the SqlServer Entity Core 
-            builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+            builder.Services.AddScoped<IRepository<Bulky.Models.Models.Product>, ProductRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
-
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -44,7 +46,7 @@ namespace BulkyWeb
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
             app.UseRouting();
          
             app.UseAuthentication();

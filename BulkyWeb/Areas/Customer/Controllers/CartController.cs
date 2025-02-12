@@ -5,6 +5,8 @@ using Bulky.Models.ViewModel;
 using Bulky.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
+using Stripe.Checkout;
 using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Customer.Controllers
@@ -92,9 +94,9 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
             ShoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
             ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
-           ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
-            ShoppingCartVM.OrderHeader.OrderTotal = 0; // Initialize
+            //ShoppingCartVM.OrderHeader.OrderTotal = 0; // Initialize
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
@@ -118,7 +120,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
             foreach (var items in ShoppingCartVM.ShoppingCartList)
             {
-               OrderDetails orderDetails = new()
+                OrderDetails orderDetails = new()
                 {
                     Count = items.Count,
                     ProductId = items.ProductId,
@@ -128,12 +130,65 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 _unitOfWork.OrderDetails.Add(orderDetails);
                 _unitOfWork.Save();
             }
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
+            {
+                var domain = "https://localhost:7001/";
+                var options = new SessionCreateOptions
+                {
+                    SuccessUrl = domain+$"customer/cart/orderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl=domain+$"customer/cart/index",
+                    LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
+                    Mode = "payment",
+                };
 
-            return RedirectToAction(nameof(OrderConfirmation), new {id=ShoppingCartVM.OrderHeader.Id});
+                foreach(var items in ShoppingCartVM.ShoppingCartList)
+                {
+                        var sessionItems=new SessionLineItemOptions {
+                            PriceData=new SessionLineItemPriceDataOptions
+                            {
+                                UnitAmount=(long) (items.TotalPrice*100),
+                                Currency="usd",
+                                ProductData=new SessionLineItemPriceDataProductDataOptions
+                                {
+                                    Name=items.Product.Title
+                                }
+                                
+                            },
+                            Quantity=items.Count
+                        };
+                    options.LineItems.Add(sessionItems);
+                }
+                var service = new SessionService();
+                Session session=service.Create(options);
+                _unitOfWork.OrderHeader.UpdateStripeId(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+                _unitOfWork.Save();
+                Response.Headers.Add("Location", session.Url);
+                return new StatusCodeResult(303);
+            }
+
+            return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
         }
 
         public IActionResult OrderConfirmation(int id)
         {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
+
+            if(orderHeader.PaymentStatus != SD.PaymentStatusDeleayedPayment)
+            {
+                var service = new SessionService();
+                Session session = service.Get(orderHeader.SessionId);
+
+                if (session.PaymentStatus.ToLower() == "paid")
+                {
+                    _unitOfWork.OrderHeader.UpdateStripeId(id,session.Id, session.PaymentIntentId);
+                    _unitOfWork.OrderHeader.UpdateStatus(id,SD.StatusApproved,SD.PaymentStatusApproved);
+                    _unitOfWork.Save();
+                }
+            }
+
+            List<ShoppingCart> shoppingCarts=_unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId==orderHeader.ApplicationUserId).ToList();
+
+            _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
             return View(id);
         }
 
@@ -196,7 +251,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+
 
     }
 }
