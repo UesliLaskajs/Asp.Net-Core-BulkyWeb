@@ -1,5 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models.Models;
+using Bulky.Models.ViewModel;
 using Bulky.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,15 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View();
         }
 
-
+        public IActionResult Details(int orderId)
+        {
+            OrderVM orderVm = new()
+            {
+                orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId, includeProperties: "ApplicationUser"),
+                orderDetails = _unitOfWork.OrderDetails.GetAll(u => u.orderHeader.Id == orderId, includeProperties: "Product")
+            };
+            return View(orderVm);
+        }
         [HttpGet]
        public IActionResult GetAll(string status)
         {
