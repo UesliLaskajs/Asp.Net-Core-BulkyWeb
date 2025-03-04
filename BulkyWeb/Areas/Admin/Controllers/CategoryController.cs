@@ -81,6 +81,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(obj);
+
         }
 
         public IActionResult Delete(int? id)
