@@ -29,11 +29,20 @@ namespace BulkyWeb
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(100);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             builder.Services.AddRazorPages();                                                                                                                                   //Use the SqlServer Entity Core 
             builder.Services.AddScoped<IRepository<Bulky.Models.Models.Product>, ProductRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+           
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -51,6 +60,7 @@ namespace BulkyWeb
          
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
             app.MapRazorPages();
             app.MapControllerRoute(
                 name: "default",

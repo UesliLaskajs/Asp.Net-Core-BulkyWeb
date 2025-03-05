@@ -1,6 +1,7 @@
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Bulky.Models.Models;
+using Bulky.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
@@ -59,10 +60,13 @@ namespace BulkyWeb.Areas.Customer.Controllers
             else
             {
                 _unitOfWork.ShoppingCart.Add(shoppCart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.sessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
+
             }
 
             _unitOfWork.ShoppingCart.Add(shoppCart);
-            _unitOfWork.Save();
+            
 
             return RedirectToAction(nameof(Index));
         }
