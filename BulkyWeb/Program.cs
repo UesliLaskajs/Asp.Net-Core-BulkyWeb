@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Bulky.Utilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using Bulky.DataAccess.DbInitializer;
 
 
 namespace BulkyWeb
@@ -37,6 +38,7 @@ namespace BulkyWeb
                 options.Cookie.IsEssential = true;
             });
 
+            builder.Services.AddScoped<IDbInitializer, DbInitializer>();
             builder.Services.AddRazorPages();                                                                                                                                   //Use the SqlServer Entity Core 
             builder.Services.AddScoped<IRepository<Bulky.Models.Models.Product>, ProductRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -61,6 +63,7 @@ namespace BulkyWeb
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+            seedDatabase();
             app.MapRazorPages();
             app.MapControllerRoute(
                 name: "default",
@@ -68,6 +71,15 @@ namespace BulkyWeb
 
 
             app.Run();
+
+            void seedDatabase()
+            {
+                using(var scope = app.Services.CreateScope())
+                {
+                    var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+                    dbInitializer.Initialize();
+                }
+            }
         }
     }
 }
